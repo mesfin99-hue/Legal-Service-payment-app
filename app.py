@@ -129,10 +129,11 @@ pricing_data = {
         "ንምምኻር (Consultation)",
         "ክሲ ንምፅሓፍ (Statement of Claim)",
         "መልሲ ንምፅሓፍ (Statement of Defense)",
+        "ውዕሊ ንምፅሓፍ (Drafting Contract)",
         "መመልከቲታት (ውርሲ፣ ሽም ምቕያር፣ ሞግዚት ንምሻም)",
         "ንኻልኦት (Other Applications)"
     ],
-    "ዋጋ (Price)": ["2000 ብር", "4000 ብር", "3000 ብር", "1000 ብር", "2500 ብር"]
+    "ዋጋ (Price)": ["2000 ብር", "4000 ብር", "3000 ብር", "5000 ብር", "1000 ብር", "2500 ብር"]
 }
 st.table(pricing_data)
 
@@ -150,11 +151,12 @@ with st.form("legal_intake_form"):
     service = st.selectbox(
         "ዝደልይዎ ኣገልግሎት (Choose Service):",
         [
-            "ንምምኻር — 1000 ብር",
-            "ክሲ ንምፅሓፍ — 3000 ብር",
-            "መልሲ ንምፅሓፍ — 2000 ብር",
+            "ንምምኻር — 2000 ብር",
+            "ክሲ ንምፅሓፍ — 4000 ብር",
+            "መልሲ ንምፅሓፍ — 3000 ብር",
+            "ውዕሊ ንምፅሓፍ — 5000 ብር",
             "መመልከቲታት (ውርሲ፣ ሽም ምቕያር፣ ሞግዚት ንምሻም) — 1000 ብር",
-            "ንኻልኦት — 1500 ብር"
+            "ንኻልኦት — 2500 ብር"
         ]
     )
     
@@ -184,7 +186,7 @@ if submit_btn:
             # Send the data over email via SMTP
             success = send_email_notification(name, phone, service, details, invoice)
             
-            st.success("እቲ ዝመልኡዎ ፎርሚ ብዝተሳኸዐ ተላኢኹ ኣሎ! ነመስግን:: መፍለጢ ናብቲ መማኸሪ ተላኢኹ ኣሎ ኢንተርኔት ኣብሪሆም ኣብ ዋትስኣብ ይፀበዩ።")
+            st.success("እቲ ዝመልኡዎ ፎርሚ ብዝተሳኸዐ ተላኢኹ ኣሎ! ነመስግን:: መፍለጢ ናብቲ መማኸሪ ተላኢኹ ኣሎ ኢንተርኔት ኣብሪሆም ኣብ ዋትስኣብ ይፀበዩ። ኣብ ውሽጢ 1:00 ሰዓት መልሲ እንተዘይመፅዩዎም ገንዘቦም ክምለሰሎም እዩ")
             st.balloons()
             
             st.info(f"**መጠቓለሊ (Notification Sent):**\n\n"
