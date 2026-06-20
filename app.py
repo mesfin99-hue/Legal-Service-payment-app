@@ -120,7 +120,7 @@ def send_email_notification(client_name, client_phone, selected_service, case_de
 
 # --- App Structure & UI ---
 st.title("⚖️ Legal Services Pre-Payment Portal")
-st.write("በይዘኦም ዝደልይዎ ዓይነት ኣገልግሎት መሪፆም ክፍሊት ዝፈፀሙሉ ደረሰይ የተሓሕዙ። ካብኡ ናይ ጉዳዮም ዝርዝር ሓበሬታ የቐምጡ።")
+st.write("እዚ ግልጋሎት ኩሉ ግዜ ንጉሆ ካብ /ሰዓት 1:00 ክሳብ ሰዓት 6:00 ድሕሪ ሰዓት ካብ ሰዓት 9:00 ክሳብ ሰዓት 2:00 ምሸት/ እዩ። በይዘኦም ዝደልይዎ ዓይነት ኣገልግሎት መሪፆም ክፍሊት ዝፈፀሙሉ ደረሰይ የተሓሕዙ። ካብኡ ናይ ጉዳዮም ዝርዝር ሓበሬታ የቐምጡ።")
 
 # Price breakdown table
 st.subheader("ናይ ኣገልግሎት ዋጋ ዝርዝር (Pricing Structure)")
