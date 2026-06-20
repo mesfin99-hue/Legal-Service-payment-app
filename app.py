@@ -186,7 +186,7 @@ if submit_btn:
             # Send the data over email via SMTP
             success = send_email_notification(name, phone, service, details, invoice)
             
-            st.success("እቲ ዝመልኡዎ ፎርሚ ብዝተሳኸዐ ተላኢኹ ኣሎ! ነመስግን:: መፍለጢ ናብቲ መማኸሪ ተላኢኹ ኣሎ ኢንተርኔት ኣብሪሆም ኣብ ዋትስኣብ ይፀበዩ። ኣብ ውሽጢ 1:00 ሰዓት መልሲ እንተዘይመፅዩዎም ገንዘቦም ክምለሰሎም እዩ")
+            st.success("እቲ ዝመልኡዎ ፎርሚ ብዝተሳኸዐ ተላኢኹ ኣሎ! ነመስግን:: መፍለጢ ናብቲ ጠበቓ ተላኢኹ ኣሎ ኢንተርኔት ኣብሪሆም ኣብ ዋትስኣብ ይፀበዩ። ኣብ ውሽጢ 1:00 ሰዓት መልሲ እንተዘይመፅዩዎም ገንዘቦም ክምለሰሎም እዩ")
             st.balloons()
             
             st.info(f"**መጠቓለሊ (Notification Sent):**\n\n"
