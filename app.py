@@ -173,8 +173,6 @@ with st.form("legal_intake_form"):
     
     # Submit button
     submit_btn = st.form_submit_button("እዚ መረዳእታ ለኣኽ (Submit Details)")
-    st.warning("⚠️ በይዘኦም እቲ መረጋገፂ ይፅቀጡ። Please check the box to proceed.")
-    st.success("Thank you! Proceeding to the next step...")
 
 # --- Submission Logic Handler ---
 if submit_btn:
