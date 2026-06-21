@@ -169,7 +169,7 @@ with st.form("legal_intake_form"):
     
     # Detailed case information field
     st.write("#### ናይ ጉዳዮም ዝርዝር መግለፂ (Case Details)")
-    details = st.text_area("ናይ ጉዳዮም ዝርዝር መግለፂ ኣብዚ ይፅሓፉ (Write every detail about your case here):", height=250)
+    details = st.text_area("ናይ ጉዳዮም ዝርዝር መግለፂ ኣብዚ ይፅሓፉ። ዝፅሕፍዎ ዝርዝር ሽም ከሳስን ኣድራሻን፣ ሽም ተኸሳስን ኣድራሻን፣ ግምት ክሲ፣ ገዛ ወይ መሬት እንተኾይኑ መጠኑን መዋሰንን፣ ውዕሊ እንተኾይኑ ቅዳሕ መረዳእታ ምስ ደረሰይ ይልኣኹ፣ ቅድሚ ሐዚ በዚ ጉዳይ ተኸራኺርኩም እንተነይርኩም ውፅኢት ይጥቀሱ።(Write every detail about your case here):", height=250)
     
     # Submit button
     submit_btn = st.form_submit_button("እዚ መረዳእታ ለኣኽ (Submit Details)")
