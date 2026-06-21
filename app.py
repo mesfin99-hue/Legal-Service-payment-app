@@ -132,7 +132,7 @@ pricing_data = {
         "መልሲ ንምፅሓፍ (Statement of Defense)",
         "ውዕሊ ንምፅሓፍ (Drafting Contract)",
         "መመልከቲታት (ውርሲ፣ ሽም ምቕያር፣ ሞግዚት ንምሻም)",
-        "ኣብ ቤት ፍርዲ ጥብቅና ንምቛም (Representing in Court)",
+        "ኣብ ቤት ፍርዲ ጥብቅና ንምቛም (Represention in Court)",
         "ንኻልኦት (Other Applications)"
     ],
     "ዋጋ (Price)": ["2000 ብር", "4000 ብር", "3000 ብር", "5000 ብር", "1000 ብር", "10%", "2500 ብር"]
