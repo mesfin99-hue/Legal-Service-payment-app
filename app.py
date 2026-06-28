@@ -135,7 +135,7 @@ pricing_data = {
         "ኣብ ቤት ፍርዲ ጥብቅና ንምቛም (Represention in Court)",
         "ንኻልኦት (Other Applications)"
     ],
-    "ዋጋ (Price)": ["2000 ብር", "4000 ብር", "3000 ብር", "5000 ብር", "1000 ብር", "10%", "2500 ብር"]
+    "ዋጋ (Price)": ["1000 ብር", "3000 ብር", "2000 ብር", "5000 ብር", "1000 ብር", "10%", "3000 ብር"]
 }
 st.table(pricing_data)
 
@@ -143,7 +143,7 @@ st.write("---")
 
 # Main Client Form
 with st.form("legal_intake_form"):
-    st.subheader("ናይ ዓሚል መመልከቲ ፎርሚ (Client Intake Form)")
+    st.subheader("ናይ ዓሚል ድሌት መግለፂ ፎርሚ (Client Intake Form)")
     
     # Personal Details
     name = st.text_input("ሙሉእ ሽም (Full Name)")
@@ -153,13 +153,13 @@ with st.form("legal_intake_form"):
     service = st.selectbox(
         "ዝደልይዎ ኣገልግሎት (Choose Service):",
         [
-            "ንምምኻር — 2000 ብር",
-            "ክሲ ንምፅሓፍ — 4000 ብር",
-            "መልሲ ንምፅሓፍ — 3000 ብር",
+            "ንምምኻር — 1000 ብር",
+            "ክሲ ንምፅሓፍ — 3000 ብር",
+            "መልሲ ንምፅሓፍ — 2000 ብር",
             "ውዕሊ ንምፅሓፍ — 5000 ብር",
             "መመልከቲታት (ውርሲ፣ ሽም ምቕያር፣ ሞግዚት ንምሻም) — 1000 ብር",
             "ኣብ ቤት ፍርዲ ጥብቅና ንምቛም — 10%",
-            "ንኻልኦት — 2500 ብር"
+            "ንኻልኦት — 3000 ብር"
         ]
     )
     
