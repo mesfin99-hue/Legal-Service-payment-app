@@ -8,12 +8,12 @@ from email import encoders
 # --- Page Configurations ---
 st.set_page_config(page_title="Legal Services Intake", page_icon="⚖️", layout="centered")
 
-# --- Custom Styling (Sky Blue Background, Bright Pink Fonts) ---
+# --- Custom Styling (Cyan Background, Bright Pink Fonts) ---
 custom_css = """
 <style>
     /* Entire application background */
     .stApp {
-        background-color: #87CEEB !important; /* Sky blue background */
+        background-color: #00FFFF !important; /* Cyan background */
     }
     
     /* Override font colors to Bright Pink */
