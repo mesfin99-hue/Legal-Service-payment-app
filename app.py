@@ -8,7 +8,7 @@ from email import encoders
 # --- Page Configurations ---
 st.set_page_config(page_title="Legal Services Intake", page_icon="⚖️", layout="centered")
 
-# --- Custom Styling (Cyan Background, Bright Pink Fonts) ---
+# --- Custom Styling (Cyan Background, Blue Fonts) ---
 custom_css = """
 <style>
     /* Entire application background */
@@ -16,29 +16,29 @@ custom_css = """
         background-color: #00FFFF !important; /* Cyan background */
     }
     
-    /* Override font colors to Bright Pink */
+    /* Override font colors to Blue */
     html, body, p, h1, h2, h3, h4, h5, h6, span, label, li, div {
-        color: #FF1493 !important; /* Bright Pink */
+        color: #0000FF !important; /* Blue */
         font-family: 'Helvetica Neue', Arial, sans-serif;
     }
     
     /* Style input boxes and text areas for visibility */
     .stTextInput input, .stTextArea textarea, .stSelectbox select {
-        color: #FF1493 !important;
-        border: 2px solid #FF1493 !important;
+        color: #0000FF !important;
+        border: 2px solid #0000FF !important;
         background-color: #FFFFFF !important; /* White background inside input boxes for text contrast */
         font-weight: bold;
     }
 
     /* Checkbox text label override */
     .stCheckbox label p {
-        color: #FF1493 !important;
+        color: #0000FF !important;
         font-weight: bold;
     }
 
     /* Form Container Border */
     div[data-testid="stForm"] {
-        border: 3px solid #FF1493 !important;
+        border: 3px solid #0000FF !important;
         background-color: rgba(0, 0, 0, 0.2);
         border-radius: 12px;
         padding: 25px;
@@ -46,7 +46,7 @@ custom_css = """
 
     /* Submit Button styling */
     div.stButton > button:first-child {
-        background-color: #FF1493 !important;
+        background-color: #0000FF !important;
         color: white !important;
         font-size: 16px !important;
         font-weight: bold !important;
@@ -57,7 +57,7 @@ custom_css = """
     }
     
     div.stButton > button:first-child:hover {
-        background-color: #FF69B4 !important; /* Lighter bright pink on hover */
+        background-color: #87CEEB !important; /* Sky Blue on hover */
         color: white !important;
     }
 </style>
