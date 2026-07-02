@@ -169,4 +169,31 @@ with st.form("legal_intake_form"):
     
     # Detailed case information field
     st.write("#### ናይ ጉዳዮም ዝርዝር መግለፂ (Case Details)")
-    details = st.text_area("ናይ ጉዳዮም ዝርዝር መግለፂ ኣብዚ ይፅሓፉ። ዝፅሕፍዎ ዝርዝር ሽም ከሳስን ኣድራሻን፣ ሽም ተኸሳስን ኣድራሻን፣ ግምት ክሲ፣ ገዛ ወይ መ
+    details = st.text_area("ናይ ጉዳዮም ዝርዝር መግለፂ ኣብዚ ይፅሓፉ። ዝፅሕፍዎ ዝርዝር ሽም ከሳስን ኣድራሻን፣ ሽም ተኸሳስን ኣድራሻን፣ ግምት ክሲ፣ ገዛ ወይ መሬት እንተኾይኑ መጠኑን መዋሰንን፣ ውዕሊ እንተኾይኑ ቅዳሕ መረዳእታ ምስ ደረሰይ ይልኣኹ፣ ቅድሚ ሐዚ በዚ ጉዳይ ተኸራኺርኩም እንተነይርኩም ውፅኢት ይጥቀሱ።(Write every detail about your case here):", height=250)
+    
+    # Submit button
+    submit_btn = st.form_submit_button("ለኣኽ (Submit)")
+
+# --- Submission Logic Handler ---
+if submit_btn:
+    if not name or not phone:
+        st.error("በይዘኦም ሽሞምን ስልኪ ቁፅሮምን ይምልኡ (Please fill out Name and Phone Number).")
+    elif not invoice:
+        st.error("በይዘኦም ናይ ክፍሊት መረጋገፂ ደረሰይ የተሓሕዙ (Please attach your payment invoice).")
+    elif not confirmed:
+        st.error("በይዘኦም ክፍሊት ምፍፃሞም ዘረጋግፅ ሳንዱቕ ይፅቀጡ (Please check the payment confirmation checkbox).")
+    elif not details:
+        st.error("በይዘኦም ናይ ጉዳዮም ዝርዝር መብርሂ ይፅሓፉ (Please write your case details).")
+    else:
+        with st.spinner("ኣብ ምምሕልላፍ ይርከብ... በይዘኦም ይፀበዩ (Sending notification...)"):
+            # Send the data over email via SMTP
+            success = send_email_notification(name, phone, service, details, invoice)
+            
+            st.success("እቲ ዝመልኡዎ ፎርሚ ብዝተሳኸዐ ተላኢኹ ኣሎ! ነመስግን:: መፍለጢ ናብቲ ጠበቓ ተላኢኹ ኣሎ ኢንተርኔት ኣብሪሆም ኣብ ዋትስኣብ ይፀበዩ። ኣብ ውሽጢ 1:00 ሰዓት መልሲ እንተዘይመፅዩዎም ገንዘቦም ክምለሰሎም እዩ።")
+            st.balloons()
+            
+            st.info(f"**መጠቓለሊ (Notification Sent):**\n\n"
+                    f"👤 ዓሚል (Client): {name}\n"
+                    f"📞 ስልኪ ቁፅሪ (Phone): {phone}\n"
+                    f"💼 ግልጋሎት (Service): {service}\n"
+                    f"📧 Email Sent To: shewet2015@gmail.com")
