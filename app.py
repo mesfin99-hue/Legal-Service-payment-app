@@ -8,12 +8,12 @@ from email import encoders
 # --- Page Configurations ---
 st.set_page_config(page_title="Legal Services Intake", page_icon="⚖️", layout="centered")
 
-# --- Custom Styling (Blue Background, Bright Pink Fonts) ---
+# --- Custom Styling (Light Blue Background, Bright Pink Fonts) ---
 custom_css = """
 <style>
     /* Entire application background */
     .stApp {
-        background-color: #0047AB !important; /* Blue background */
+        background-color: #ADD8E6 !important; /* Light blue background */
     }
     
     /* Override font colors to Bright Pink */
@@ -197,11 +197,3 @@ if submit_btn:
                     f"📞 ስልኪ ቁፅሪ (Phone): {phone}\n"
                     f"💼 ግልጋሎት (Service): {service}\n"
                     f"📧 Email Sent To: shewet2015@gmail.com")
-
-
-
-
-      
-           
-            
-   
