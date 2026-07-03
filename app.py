@@ -164,7 +164,7 @@ with st.form("legal_intake_form"):
     )
     
     # Payment Upload and Confirmation
-    invoice = st.file_uploader("ዝኸፈልሉ ደረሰይ ኣብዚ የተሓሕዙ (Attach Paid Invoice / Receipt)", type=["pdf", "png", "jpg", "jpeg"])
+    invoice = st.file_uploader("ዝኸፈልሉ ደረሰይ ይኹን ካልእ መረዳእታ ኣብዚ የተሓሕዙ (Attach Paid Invoice / Receipt and other evidence)", type=["pdf", "png", "jpg", "jpeg"])
     confirmed = st.checkbox("ትኽክለኛ ክፍሊት ምኽፋለይ የረጋግፅ (I confirm that I have paid the required amount)")
     
     # Detailed case information field
