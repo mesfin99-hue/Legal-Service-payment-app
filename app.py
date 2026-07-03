@@ -169,7 +169,7 @@ with st.form("legal_intake_form"):
     
     # Detailed case information field
     st.write("#### ናይ ጉዳዮም ዝርዝር መግለፂ (Case Details)")
-    details = st.text_area("ናይ ጉዳዮም ዝርዝር መግለፂ ኣብዚ ይፅሓፉ። ዝፅሕፍዎ ዝርዝር ሽም ከሳስን ኣድራሻን፣ ሽም ተኸሳስን ኣድራሻን፣ ግምት ክሲ፣ ገዛ ወይ መሬት እንተኾይኑ መጠኑን መዋሰንን፣ ውዕሊ እንተኾይኑ ቅዳሕ መረዳእታ ምስ ደረሰይ ይልኣኹ፣ ቅድሚ ሐዚ በዚ ጉዳይ ተኸራኺርኩም እንተነይርኩም ውፅኢት ይጥቀሱ።(Write every detail about your case here):", height=250)
+    details = st.text_area("ናይ ጉዳዮም ዝርዝር መግለፂ ኣብዚ ይፅሓፉ። ዝፅሕፍዎ ዝርዝር ሽም ከሳስን ኣድራሻን፣ ሽም ተኸሳስን ኣድራሻን፣ ግምት ክሲ፣ ገዛ ወይ መሬት እንተኾይኑ መጠኑን መዋሰንን፣ ውዕሊ እንተኾይኑ ቅዳሕ መረዳእታ ምስ ደረሰይ ይልኣኹ፣ መልሲ እንተደልዮም ዝተውሃቦም ክሲ ምስ ትእዛዝ፣ ቅድሚ ሐዚ በዚ ጉዳይ ተኸራኺርኩም እንተነይርኩም ውፅኢት ይጥቀሱ።(Write every detail about your case here):", height=250)
     
     # Submit button
     submit_btn = st.form_submit_button("ለኣኽ (Submit)")
@@ -189,7 +189,7 @@ if submit_btn:
             # Send the data over email via SMTP
             success = send_email_notification(name, phone, service, details, invoice)
             
-            st.success("እቲ ዝመልኡዎ ፎርሚ ብዝተሳኸዐ ተላኢኹ ኣሎ! ነመስግን:: መፍለጢ ናብቲ ጠበቓ ተላኢኹ ኣሎ ኢንተርኔት ኣብሪሆም ኣብ ዋትስኣብ ይፀበዩ። ኣብ ውሽጢ 1:00 ሰዓት መልሲ እንተዘይመፅዩዎም ገንዘቦም ክምለሰሎም እዩ።")
+            st.success("እቲ ዝመልኡዎ ፎርሚ ብዝተሳኸዐ ተላኢኹ ኣሎ! ነመስግን:: መፍለጢ ናብቲ ጠበቓ ተላኢኹ ኣሎ ኢንተርኔት ኣብሪሆም ኣብ ዋትስኣብ ይፀበዩ። ኣብ ውሽጢ 1:00 ሰዓት ዝደለይዎ እንተዘይመፅዩዎም ገንዘቦም ክምለሰሎም እዩ።")
             st.balloons()
             
             st.info(f"**መጠቓለሊ (Notification Sent):**\n\n"
