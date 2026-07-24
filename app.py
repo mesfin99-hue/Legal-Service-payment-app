@@ -177,7 +177,7 @@ with st.form("legal_intake_form"):
 # --- Submission Logic Handler ---
 if submit_btn:
     if not name or not phone:
-        st.error("በይዘኦም ሽሞምን ስልኪ ቁፅሮምን ይምልኡ (Please fill out Name and Phone Number).")
+        st.error("በይዘኦም ሽሞም፣ ኢመይሎምን ስልኪ ቁፅሮምን ይምልኡ (Please fill out Name, email and Phone Number).")
     elif not invoice:
         st.error("በይዘኦም ናይ ክፍሊት መረጋገፂ ደረሰይ የተሓሕዙ (Please attach your payment invoice).")
     elif not confirmed:
