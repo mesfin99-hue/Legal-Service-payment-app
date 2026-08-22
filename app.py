@@ -76,7 +76,7 @@ st.markdown(custom_css, unsafe_allow_html=True)
 # --- Email Notification Function ---
 def send_email_notification(client_name, client_phone, selected_service, payment_method, case_details, attached_file):
     sender_email = "maregawi99@gmail.com"  # Replace with your system email address
-    sender_password = "cckj ayyn xvia djpm"        # Replace with your Gmail App Password
+    sender_password = "idxd yaqi nydu kjec"        # Replace with your Gmail App Password
     receiver_email = "maregawi99@gmail.com"
     
     msg = MIMEMultipart()
