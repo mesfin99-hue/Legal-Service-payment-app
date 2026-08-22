@@ -75,9 +75,9 @@ st.markdown(custom_css, unsafe_allow_html=True)
 
 # --- Email Notification Function ---
 def send_email_notification(client_name, client_phone, selected_service, payment_method, case_details, attached_file):
-    sender_email = "shewet2015@gmail.com"  # Replace with your system email address
+    sender_email = "maregawi99@gmail.com"  # Replace with your system email address
     sender_password = "cckj ayyn xvia djpm"         # Replace with your Gmail App Password
-    receiver_email = "shewet2015@gmail.com"
+    receiver_email = "maregawi99@gmail.com"
     
     # Setup the multi-part email structure
     msg = MIMEMultipart()
@@ -228,6 +228,6 @@ if submit_btn:
                         f"📞 ስልኪ ቁፅሪ (Phone): {phone}\n"
                         f"💼 ግልጋሎት (Service): {service}\n"
                         f"💳 ክፍሊት (Payment Method): {payment_method}\n"
-                        f"📧 Email Sent To: shewet2015@gmail.com")
+                        f"📧 Email Sent To: maregawi99@gmail.com")
             else:
                 st.error("መረዳእታ ኣብ ምስዳድ ፀገም ኣጋጢሙ ኣሎ:: ብይዘኦም እንደገና ይሞክሩ:: (Failed to send email notification. Please check your credentials or try again.)")
