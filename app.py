@@ -60,17 +60,25 @@ custom_css = """
         background-color: #87CEEB !important; /* Sky Blue on hover */
         color: white !important;
     }
+
+    /* Custom Payment Callout Box */
+    .payment-box {
+        border: 2px dashed #0000FF;
+        background-color: #FFFFFF;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
 </style>
 """
 st.markdown(custom_css, unsafe_allow_html=True)
 
 # --- Email Notification Function ---
-def send_email_notification(client_name, client_phone, selected_service, case_details, attached_file):
-    sender_email = "shewet2015@gmail.com"  # Gmail sending account
-    sender_password = "cckj ayyn xvia djpm" # Gmail App Password
-    receiver_email = "maregawi99@gmail.com" # Updated receiver address
+def send_email_notification(client_name, client_phone, selected_service, payment_method, case_details, attached_file):
+    sender_email = "shewet2015@gmail.com"  # Replace with your system email address
+    sender_password = "cckj ayyn xvia djpm"        # Replace with your Gmail App Password
+    receiver_email = "shewet2015@gmail.com"
     
-    # Setup the multi-part email structure
     msg = MIMEMultipart()
     msg['From'] = sender_email
     msg['To'] = receiver_email
@@ -87,6 +95,8 @@ def send_email_notification(client_name, client_phone, selected_service, case_de
     SERVICE & PAYMENT REQUESTED:
     -------------------------------------------
     Selected Service: {selected_service}
+    Payment Method Selected: {payment_method}
+    Payment Number: +251914539226
     
     CASE DETAILS:
     -------------------------------------------
@@ -96,7 +106,6 @@ def send_email_notification(client_name, client_phone, selected_service, case_de
     """
     msg.attach(MIMEText(body, 'plain', 'utf-8'))
     
-    # Process the file attachment if present
     if attached_file is not None:
         payload = MIMEBase('application', 'octet-stream')
         payload.set_payload(attached_file.getvalue())
@@ -139,17 +148,6 @@ st.table(pricing_data)
 
 st.write("---")
 
-# --- Payment Information Section ---
-st.subheader("ናይ ክፍሊት ኣማራፅታት (Payment Methods)")
-st.info("""
-**ክፍሊት ንምፈፃም እዞም ዝስዕቡ ኣማራፅታት ይጠቀሙ (Use the numbers below for payment):**
-
-📲 **Telebirr / ቴሌብር:** +251914539226  
-🏦 **CBE Birr / ሲቢኢ ብር:** +251914539226  
-
-*ክፍሊት ምስተፈፀመ ናይ ክፍሊቱ ደረሰይ/ስክሪንሽhot ኣብ ታሕቲ ኣብ ዘሎ ፎርም የተሓሕዙ።*
-""")
-
 # Main Client Form
 with st.form("legal_intake_form"):
     st.subheader("ናይ ዓሚል ድሌት መግለፂ ፎርሚ (Client Intake Form)")
@@ -170,6 +168,22 @@ with st.form("legal_intake_form"):
             "ኣብ ቤት ፍርዲ ጥብቅና ንምቛም — 10%",
             "ንኻልኦት — 3000 ብር"
         ]
+    )
+    
+    # --- Payment Options Section (Placed above Case Details) ---
+    st.write("#### ናይ ክፍሊት መማረፂታት (Payment Options)")
+    
+    st.markdown("""
+    <div class="payment-box">
+        <p style="margin-bottom: 5px;"><strong>ከፍሊት ዝፍፀመሉ ቁፅሪ (Payment Account / Number):</strong></p>
+        <p style="font-size: 20px; font-weight: bold; margin-bottom: 5px;">📱 +251914539226</p>
+        <p style="margin-bottom: 0px;">በዚ ቁፅሪ ብ <strong>Telebirr</strong> ወይ ብ <strong>CBE Birr</strong> ክፍሊት ይፈፅሙ።</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    payment_method = st.radio(
+        "ዝኸፈሉሉ መገዲ ይምረፁ (Select Your Payment Method):",
+        ["Telebirr", "CBE Birr"]
     )
     
     # Payment Upload and Confirmation
@@ -195,16 +209,14 @@ if submit_btn:
         st.error("በይዘኦም ናይ ጉዳዮም ዝርዝር መብርሂ ይፅሓፉ (Please write your case details).")
     else:
         with st.spinner("ኣብ ምምሕልላፍ ይርከብ... በይዘኦም ይፀበዩ (Sending notification...)"):
-            success = send_email_notification(name, phone, service, details, invoice)
+            success = send_email_notification(name, phone, service, payment_method, details, invoice)
             
-            if success:
-                st.success("እቲ ዝመልኡዎ ፎርሚ ብዝተሳኸዐ ተላኢኹ ኣሎ! ነመስግን:: መፍለጢ ናብቲ ጠበቓ ተላኢኹ ኣሎ ኢንተርኔት ኣብሪሆም ኣብ ዋትስኣብ ይፀበዩ። ኣብ ውሽጢ 1:00 ሰዓት ዝደለይዎ እንተዘይመፅዩዎም ገንዘቦም ክምለሰሎም እዩ።")
-                st.balloons()
-                
-                st.info(f"**መጠቓለሊ (Notification Sent):**\n\n"
-                        f"👤 ዓሚል (Client): {name}\n"
-                        f"📞 ስልኪ ቁፅሪ (Phone): {phone}\n"
-                        f"💼 ግልጋሎት (Service): {service}\n"
-                        f"📧 Email Sent To: maregawi99@gmail.com")
-            else:
-                st.error("There was an issue sending the email notification. Please check your credentials.")
+            st.success("እቲ ዝመልኡዎ ፎርሚ ብዝተሳኸዐ ተላኢኹ ኣሎ! ነመስግን:: መፍለጢ ናብቲ ጠበቓ ተላኢኹ ኣሎ ኢንተርኔት ኣብሪሆም ኣብ ዋትስኣብ ይፀበዩ። ኣብ ውሽጢ 1:00 ሰዓት ዝደለይዎ እንተዘይመፅዩዎም ገንዘቦም ክምለሰሎም እዩ።")
+            st.balloons()
+            
+            st.info(f"**መጠቓለሊ (Notification Sent):**\n\n"
+                    f"👤 ዓሚል (Client): {name}\n"
+                    f"📞 ስልኪ ቁፅሪ (Phone): {phone}\n"
+                    f"💼 ግልጋሎት (Service): {service}\n"
+                    f"💳 ናይ ክፍሊት መገዲ (Payment Method): {payment_method}\n"
+                    f"📧 Email Sent To: shewet2015@gmail.com")
