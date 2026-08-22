@@ -139,6 +139,14 @@ pricing_data = {
 }
 st.table(pricing_data)
 
+# --- Payment Options Section (NEW) ---
+st.write("---")
+st.subheader("ኣማራፂታት ክፍሊት (Payment Options)")
+st.info(
+    "በይዘኦም ክፍሊቶም ብ **TeleBirr (ቴሌ ብር)** ወይ **CBE Birr (ሲቢኢ ብር)** ናብዚ ዝስዕብ ስልኪ ቁፅሪ ይፈፅሙ:\n\n"
+    "📱 **+251914539226**\n\n"
+    "*(Please make your payment via TeleBirr or CBE Birr to the number above before attaching your receipt below.)*"
+)
 st.write("---")
 
 # Main Client Form
