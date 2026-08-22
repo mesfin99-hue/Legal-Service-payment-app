@@ -11,138 +11,138 @@ st.set_page_config(page_title="Legal Services Intake", page_icon="⚖️", layou
 # --- Custom Styling (Cyan Background, Blue Fonts) ---
 custom_css = """
 <style>
-    /* Entire application background */
-    .stApp {
-        background-color: #00FFFF !important; /* Cyan background */
-    }
-    
-    /* Override font colors to Blue */
-    html, body, p, h1, h2, h3, h4, h5, h6, span, label, li, div {
-        color: #0000FF !important; /* Blue */
-        font-family: 'Helvetica Neue', Arial, sans-serif;
-    }
-    
-    /* Style input boxes and text areas for visibility */
-    .stTextInput input, .stTextArea textarea, .stSelectbox select {
-        color: #0000FF !important;
-        border: 2px solid #0000FF !important;
-        background-color: #FFFFFF !important; /* White background inside input boxes for text contrast */
-        font-weight: bold;
-    }
+    /* Entire application background */
+    .stApp {
+        background-color: #00FFFF !important; /* Cyan background */
+    }
+    
+    /* Override font colors to Blue */
+    html, body, p, h1, h2, h3, h4, h5, h6, span, label, li, div {
+        color: #0000FF !important; /* Blue */
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+    
+    /* Style input boxes and text areas for visibility */
+    .stTextInput input, .stTextArea textarea, .stSelectbox select {
+        color: #0000FF !important;
+        border: 2px solid #0000FF !important;
+        background-color: #FFFFFF !important; /* White background inside input boxes for text contrast */
+        font-weight: bold;
+    }
 
-    /* Checkbox text label override */
-    .stCheckbox label p {
-        color: #0000FF !important;
-        font-weight: bold;
-    }
+    /* Checkbox text label override */
+    .stCheckbox label p {
+        color: #0000FF !important;
+        font-weight: bold;
+    }
 
-    /* Form Container Border */
-    div[data-testid="stForm"] {
-        border: 3px solid #0000FF !important;
-        background-color: rgba(0, 0, 0, 0.2);
-        border-radius: 12px;
-        padding: 25px;
-    }
+    /* Form Container Border */
+    div[data-testid="stForm"] {
+        border: 3px solid #0000FF !important;
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 12px;
+        padding: 25px;
+    }
 
-    /* Submit Button styling */
-    div.stButton > button:first-child {
-        background-color: #0000FF !important;
-        color: white !important;
-        font-size: 16px !important;
-        font-weight: bold !important;
-        border: none !important;
-        border-radius: 8px !important;
-        padding: 12px 30px !important;
-        cursor: pointer;
-    }
-    
-    div.stButton > button:first-child:hover {
-        background-color: #87CEEB !important; /* Sky Blue on hover */
-        color: white !important;
-    }
+    /* Submit Button styling */
+    div.stButton > button:first-child {
+        background-color: #0000FF !important;
+        color: white !important;
+        font-size: 16px !important;
+        font-weight: bold !important;
+        border: none !important;
+        border-radius: 8px !important;
+        padding: 12px 30px !important;
+        cursor: pointer;
+    }
+    
+    div.stButton > button:first-child:hover {
+        background-color: #87CEEB !important; /* Sky Blue on hover */
+        color: white !important;
+    }
 
-    /* Custom Payment Callout Box */
-    .payment-box {
-        border: 2px dashed #0000FF;
-        background-color: #FFFFFF;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-    }
+    /* Custom Payment Callout Box */
+    .payment-box {
+        border: 2px dashed #0000FF;
+        background-color: #FFFFFF;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
 </style>
 """
 st.markdown(custom_css, unsafe_allow_html=True)
 
 # --- Email Notification Function ---
 def send_email_notification(client_name, client_phone, selected_service, payment_method, case_details, attached_file):
-    sender_email = "maregawi99@gmail.com"  # Replace with your system email address
-    sender_password = "idxd yaqi nydu kjec"        # Replace with your Gmail App Password
-    receiver_email = "maregawi99@gmail.com"
-    
-    msg = MIMEMultipart()
-    msg['From'] = sender_email
-    msg['To'] = receiver_email
-    msg['Subject'] = f"⚖️ NEW PRE-PAID CASE: {client_name}"
-    
-    body = f"""
-    You have received a new pre-paid legal case submission.
-    
-    CLIENT DETAILS:
-    -------------------------------------------
-    Full Name: {client_name}
-    Phone Number: {client_phone}
-    
-    SERVICE & PAYMENT REQUESTED:
-    -------------------------------------------
-    Selected Service: {selected_service}
-    Payment Method Selected: {payment_method}
-    Payment Number: +251914539226
-    
-    CASE DETAILS:
-    -------------------------------------------
-    {case_details}
-    
-    *The client's payment invoice receipt is attached to this email.*
-    """
-    msg.attach(MIMEText(body, 'plain', 'utf-8'))
-    
-    if attached_file is not None:
-        payload = MIMEBase('application', 'octet-stream')
-        payload.set_payload(attached_file.getvalue())
-        encoders.encode_base64(payload)
-        payload.add_header('Content-Disposition', f'attachment; filename={attached_file.name}')
-        msg.attach(payload)
-        
-    try:
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.starttls()
-        server.login(sender_email, sender_password)
-        text = msg.as_string()
-        server.sendmail(sender_email, receiver_email, text)
-        server.quit()
-        return True
-    except Exception as e:
-        print(f"Email Error: {e}")
-        return False
+    sender_email = "shewet2015@gmail.com"  # Replace with your system email address
+    sender_password = "cckj ayyn xvia djpm"        # Replace with your Gmail App Password
+    receiver_email = "shewet2015@gmail.com"
+    
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = receiver_email
+    msg['Subject'] = f"⚖️ NEW PRE-PAID CASE: {client_name}"
+    
+    body = f"""
+    You have received a new pre-paid legal case submission.
+    
+    CLIENT DETAILS:
+    -------------------------------------------
+    Full Name: {client_name}
+    Phone Number: {client_phone}
+    
+    SERVICE & PAYMENT REQUESTED:
+    -------------------------------------------
+    Selected Service: {selected_service}
+    Payment Method Selected: {payment_method}
+    Payment Number: +251914539226
+    
+    CASE DETAILS:
+    -------------------------------------------
+    {case_details}
+    
+    *The client's payment invoice receipt is attached to this email.*
+    """
+    msg.attach(MIMEText(body, 'plain', 'utf-8'))
+    
+    if attached_file is not None:
+        payload = MIMEBase('application', 'octet-stream')
+        payload.set_payload(attached_file.getvalue())
+        encoders.encode_base64(payload)
+        payload.add_header('Content-Disposition', f'attachment; filename={attached_file.name}')
+        msg.attach(payload)
+        
+    try:
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(sender_email, sender_password)
+        text = msg.as_string()
+        server.sendmail(sender_email, receiver_email, text)
+        server.quit()
+        return True
+    except Exception as e:
+        print(f"Email Error: {e}")
+        return False
 
 # --- App Structure & UI ---
 st.title("⚖️ Legal Services Pre-Payment Portal")
-st.title("ናይ ሕጊ ኣገልግሎት ንምርካብ ቅድመ ክፍሊት መፍለጢ ⚖️") 
+st.title("ናይ ሕጊ ኣገልግሎት ንምርካብ ቅድመ ክፍሊት መፍለጢ ⚖️") 
 st.write("እዚ ግልጋሎት ኩሉ ግዜ ንጉሆ ካብ ሰዓት 1:00 ክሳብ ሰዓት 6:00፣ ድሕሪ ሰዓት ካብ ሰዓት 9:00 ክሳብ ሰዓት 2:00 ምሸት እዩ። በይዘኦም ዝደልይዎ ዓይነት ኣገልግሎት መሪፆም ክፍሊት ዝፈፀሙሉ ደረሰይ የተሓሕዙ። ካብኡ ናይ ጉዳዮም ዝርዝር ሓበሬታ የቐምጡ።")
 
 # Price breakdown table
 st.subheader("ናይ ኣገልግሎት ዋጋ ዝርዝር (Pricing Structure)")
 pricing_data = {
-    "ናይ ኣገልግሎት ዓይነት (Service Type)": [
-        "ንምምኻር (Consultation)",
-        "ክሲ ንምፅሓፍ (Statement of Claim)",
-        "መልሲ ንምፅሓፍ (Statement of Defense)",
-        "ውዕሊ ንምፅሓፍ (Drafting Contract)",
-        "መመልከቲታት (ውርሲ፣ ሽም ምቕያር፣ ሞግዚት ንምሻም)",
-        "ኣብ ቤት ፍርዲ ጥብቅና ንምቛም (Represention in Court)",
-        "ንኻልኦት (Other Applications)"
-    ],
-    "ዋጋ (Price)": ["1000 ብር", "3000 ብር", "2000 ብር", "5000 ብር", "1000 ብር", "10%", "3000 ብር"]
+    "ናይ ኣገልግሎት ዓይነት (Service Type)": [
+        "ንምምኻር (Consultation)",
+        "ክሲ ንምፅሓፍ (Statement of Claim)",
+        "መልሲ ንምፅሓፍ (Statement of Defense)",
+        "ውዕሊ ንምፅሓፍ (Drafting Contract)",
+        "መመልከቲታት (ውርሲ፣ ሽም ምቕያር፣ ሞግዚት ንምሻም)",
+        "ኣብ ቤት ፍርዲ ጥብቅና ንምቛም (Represention in Court)",
+        "ንኻልኦት (Other Applications)"
+    ],
+    "ዋጋ (Price)": ["1000 ብር", "3000 ብር", "2000 ብር", "5000 ብር", "1000 ብር", "10%", "3000 ብር"]
 }
 st.table(pricing_data)
 
@@ -150,73 +150,73 @@ st.write("---")
 
 # Main Client Form
 with st.form("legal_intake_form"):
-    st.subheader("ናይ ዓሚል ድሌት መግለፂ ፎርሚ (Client Intake Form)")
-    
-    # Personal Details
-    name = st.text_input("ሙሉእ ሽም (Full Name)")
-    phone = st.text_input("ስልኪ ቁፅሪ (Phone Number)")
-    
-    # Service drop-down
-    service = st.selectbox(
-        "ዝደልይዎ ኣገልግሎት (Choose Service):",
-        [
-            "ንምምኻር — 1000 ብር",
-            "ክሲ ንምፅሓፍ — 3000 ብር",
-            "መልሲ ንምፅሓፍ — 2000 ብር",
-            "ውዕሊ ንምፅሓፍ — 5000 ብር",
-            "መመልከቲታት (ውርሲ፣ ሽም ምቕያር፣ ሞግዚት ንምሻም) — 1000 ብር",
-            "ኣብ ቤት ፍርዲ ጥብቅና ንምቛም — 10%",
-            "ንኻልኦት — 3000 ብር"
-        ]
-    )
-    
-    # --- Payment Options Section (Placed above Case Details) ---
-    st.write("#### ናይ ክፍሊት መማረፂታት (Payment Options)")
-    
-    st.markdown("""
-    <div class="payment-box">
-        <p style="margin-bottom: 5px;"><strong>ከፍሊት ዝፍፅምሉ ቁፅሪ (Payment Account / Number):</strong></p>
-        <p style="font-size: 20px; font-weight: bold; margin-bottom: 5px;">📱 +251914539226</p>
-        <p style="margin-bottom: 0px;">በዚ ቁፅሪ ብ <strong>Telebirr</strong> ወይ ብ <strong>CBE Birr</strong> ክፍሊት ይፈፅሙ።</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    payment_method = st.radio(
-        "ዝኸፍልሉ መንገዲ ይምረፁ (Select Your Payment Method):",
-        ["Telebirr", "CBE Birr"]
-    )
-    
-    # Payment Upload and Confirmation
-    invoice = st.file_uploader("ዝኸፈልሉ ደረሰይ ይኹን ካልእ መረዳእታ ኣብዚ የተሓሕዙ (Attach Paid Invoice / Receipt and other evidence)", type=["pdf", "png", "jpg", "jpeg"])
-    confirmed = st.checkbox("ትኽክለኛ ክፍሊት ምኽፋለይ የረጋግፅ (I confirm that I have paid the required amount)")
-    
-    # Detailed case information field
-    st.write("#### ናይ ጉዳዮም ዝርዝር መግለፂ (Case Details)")
-    details = st.text_area("ናይ ጉዳዮም ዝርዝር መግለፂ ኣብዚ ይፅሓፉ። ዝፅሕፍዎ ዝርዝር ሽም ከሳስን ኣድራሻን፣ ሽም ተኸሳስን ኣድራሻን፣ ግምት ክሲ፣ ገዛ ወይ መሬት እንተኾይኑ መጠኑን መዋሰንን፣ ውዕሊ እንተኾይኑ ቅዳሕ መረዳእታ፣ መልሲ እንተደልዮም ዝተውሃቦም ክስን ትእዛዝን ምስ ደረሰይ ይልኣኹ፣ ቅድሚ ሐዚ በዚ ጉዳይ ተኸራኺርኩም እንተነይርኩም ውፅኢት ይጥቀሱ።(Write every detail about your case here):", height=250)
-    
-    # Submit button
-    submit_btn = st.form_submit_button("ለኣኽ (Submit)")
+    st.subheader("ናይ ዓሚል ድሌት መግለፂ ፎርሚ (Client Intake Form)")
+    
+    # Personal Details
+    name = st.text_input("ሙሉእ ሽም (Full Name)")
+    phone = st.text_input("ስልኪ ቁፅሪ (Phone Number)")
+    
+    # Service drop-down
+    service = st.selectbox(
+        "ዝደልይዎ ኣገልግሎት (Choose Service):",
+        [
+            "ንምምኻር — 1000 ብር",
+            "ክሲ ንምፅሓፍ — 3000 ብር",
+            "መልሲ ንምፅሓፍ — 2000 ብር",
+            "ውዕሊ ንምፅሓፍ — 5000 ብር",
+            "መመልከቲታት (ውርሲ፣ ሽም ምቕያር፣ ሞግዚት ንምሻም) — 1000 ብር",
+            "ኣብ ቤት ፍርዲ ጥብቅና ንምቛም — 10%",
+            "ንኻልኦት — 3000 ብር"
+        ]
+    )
+    
+    # --- Payment Options Section (Placed above Case Details) ---
+    st.write("#### ናይ ክፍሊት መማረፂታት (Payment Options)")
+    
+    st.markdown("""
+    <div class="payment-box">
+        <p style="margin-bottom: 5px;"><strong>ከፍሊት ዝፍፀመሉ ቁፅሪ (Payment Account / Number):</strong></p>
+        <p style="font-size: 20px; font-weight: bold; margin-bottom: 5px;">📱 +251914539226</p>
+        <p style="margin-bottom: 0px;">በዚ ቁፅሪ ብ <strong>Telebirr</strong> ወይ ብ <strong>CBE Birr</strong> ክፍሊት ይፈፅሙ።</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    payment_method = st.radio(
+        "ዝኸፈሉሉ መገዲ ይምረፁ (Select Your Payment Method):",
+        ["Telebirr", "CBE Birr"]
+    )
+    
+    # Payment Upload and Confirmation
+    invoice = st.file_uploader("ዝኸፈልሉ ደረሰይ ይኹን ካልእ መረዳእታ ኣብዚ የተሓሕዙ (Attach Paid Invoice / Receipt and other evidence)", type=["pdf", "png", "jpg", "jpeg"])
+    confirmed = st.checkbox("ትኽክለኛ ክፍሊት ምኽፋለይ የረጋግፅ (I confirm that I have paid the required amount)")
+    
+    # Detailed case information field
+    st.write("#### ናይ ጉዳዮም ዝርዝር መግለፂ (Case Details)")
+    details = st.text_area("ናይ ጉዳዮም ዝርዝር መግለፂ ኣብዚ ይፅሓፉ። ዝፅሕፍዎ ዝርዝር ሽም ከሳስን ኣድራሻን፣ ሽም ተኸሳስን ኣድራሻን፣ ግምት ክሲ፣ ገዛ ወይ መሬት እንተኾይኑ መጠኑን መዋሰንን፣ ውዕሊ እንተኾይኑ ቅዳሕ መረዳእታ፣ መልሲ እንተደልዮም ዝተውሃቦም ክስን ትእዛዝን ምስ ደረሰይ ይልኣኹ፣ ቅድሚ ሐዚ በዚ ጉዳይ ተኸራኺርኩም እንተነይርኩም ውፅኢት ይጥቀሱ።(Write every detail about your case here):", height=250)
+    
+    # Submit button
+    submit_btn = st.form_submit_button("ለኣኽ (Submit)")
 
 # --- Submission Logic Handler ---
 if submit_btn:
-    if not name or not phone:
-        st.error("በይዘኦም ሽሞም፣ ኢመይሎምን ስልኪ ቁፅሮምን ይምልኡ (Please fill out Name and Phone Number).")
-    elif not invoice:
-        st.error("በይዘኦም ናይ ክፍሊት መረጋገፂ ደረሰይ የተሓሕዙ (Please attach your payment invoice).")
-    elif not confirmed:
-        st.error("በይዘኦም ክፍሊት ምፍፃሞም ዘረጋግፅ ሳንዱቕ ይፅቀጡ (Please check the payment confirmation checkbox).")
-    elif not details:
-        st.error("በይዘኦም ናይ ጉዳዮም ዝርዝር መብርሂ ይፅሓፉ (Please write your case details).")
-    else:
-        with st.spinner("ኣብ ምምሕልላፍ ይርከብ... በይዘኦም ይፀበዩ (Sending notification...)"):
-            success = send_email_notification(name, phone, service, payment_method, details, invoice)
-            
-            st.success("እቲ ዝመልኡዎ ፎርሚ ብዝተሳኸዐ ተላኢኹ ኣሎ! ነመስግን:: መፍለጢ ናብቲ ጠበቓ ተላኢኹ ኣሎ ኢንተርኔት ኣብሪሆም ኣብ ዋትስኣብ ይፀበዩ። ኣብ ውሽጢ 1:00 ሰዓት ዝደለይዎ እንተዘይመፅዩዎም ገንዘቦም ክምለሰሎም እዩ።")
-            st.balloons()
-            
-            st.info(f"**መጠቓለሊ (Notification Sent):**\n\n"
-                    f"👤 ዓሚል (Client): {name}\n"
-                    f"📞 ስልኪ ቁፅሪ (Phone): {phone}\n"
-                    f"💼 ግልጋሎት (Service): {service}\n"
-                    f"💳 ናይ ክፍሊት መገዲ (Payment Method): {payment_method}\n"
-                    f"📧 Email Sent To: maregawi99@gmail.com")  
+    if not name or not phone:
+        st.error("በይዘኦም ሽሞም፣ ኢመይሎምን ስልኪ ቁፅሮምን ይምልኡ (Please fill out Name and Phone Number).")
+    elif not invoice:
+        st.error("በይዘኦም ናይ ክፍሊት መረጋገፂ ደረሰይ የተሓሕዙ (Please attach your payment invoice).")
+    elif not confirmed:
+        st.error("በይዘኦም ክፍሊት ምፍፃሞም ዘረጋግፅ ሳንዱቕ ይፅቀጡ (Please check the payment confirmation checkbox).")
+    elif not details:
+        st.error("በይዘኦም ናይ ጉዳዮም ዝርዝር መብርሂ ይፅሓፉ (Please write your case details).")
+    else:
+        with st.spinner("ኣብ ምምሕልላፍ ይርከብ... በይዘኦም ይፀበዩ (Sending notification...)"):
+            success = send_email_notification(name, phone, service, payment_method, details, invoice)
+            
+            st.success("እቲ ዝመልኡዎ ፎርሚ ብዝተሳኸዐ ተላኢኹ ኣሎ! ነመስግን:: መፍለጢ ናብቲ ጠበቓ ተላኢኹ ኣሎ ኢንተርኔት ኣብሪሆም ኣብ ዋትስኣብ ይፀበዩ። ኣብ ውሽጢ 1:00 ሰዓት ዝደለይዎ እንተዘይመፅዩዎም ገንዘቦም ክምለሰሎም እዩ።")
+            st.balloons()
+            
+            st.info(f"**መጠቓለሊ (Notification Sent):**\n\n"
+                    f"👤 ዓሚል (Client): {name}\n"
+                    f"📞 ስልኪ ቁፅሪ (Phone): {phone}\n"
+                    f"💼 ግልጋሎት (Service): {service}\n"
+                    f"💳 ናይ ክፍሊት መገዲ (Payment Method): {payment_method}\n"
+                    f"📧 Email Sent To: shewet2015@gmail.com")
