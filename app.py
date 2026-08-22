@@ -44,6 +44,23 @@ custom_css = """
         padding: 25px;
     }
 
+    /* Custom Pay Button Styling */
+    .pay-btn {
+        display: inline-block;
+        background-color: #0000FF;
+        color: white !important;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 8px;
+        margin-top: 10px;
+    }
+    .pay-btn:hover {
+        background-color: #87CEEB;
+        color: white !important;
+    }
+
     /* Submit Button styling */
     div.stButton > button:first-child {
         background-color: #0000FF !important;
@@ -65,13 +82,11 @@ custom_css = """
 st.markdown(custom_css, unsafe_allow_html=True)
 
 # --- Email Notification Function ---
-def send_email_notification(client_name, client_phone, selected_service, case_details, attached_file):
-    # Configurations for sending notifications
-    sender_email = "shewet2015@gmail.com"  # Replace with your system email address
-    sender_password = "cckj ayyn xvia djpm"         # Replace with your Gmail App Password
+def send_email_notification(client_name, client_phone, selected_service, payment_method, case_details, attached_file):
+    sender_email = "shewet2015@gmail.com"  
+    sender_password = "cckj ayyn xvia djpm"         
     receiver_email = "shewet2015@gmail.com"
     
-    # Setup the multi-part email structure
     msg = MIMEMultipart()
     msg['From'] = sender_email
     msg['To'] = receiver_email
@@ -88,6 +103,7 @@ def send_email_notification(client_name, client_phone, selected_service, case_de
     SERVICE & PAYMENT REQUESTED:
     -------------------------------------------
     Selected Service: {selected_service}
+    Payment Method Selected: {payment_method}
     
     CASE DETAILS:
     -------------------------------------------
@@ -97,7 +113,6 @@ def send_email_notification(client_name, client_phone, selected_service, case_de
     """
     msg.attach(MIMEText(body, 'plain', 'utf-8'))
     
-    # Process the file attachment if present
     if attached_file is not None:
         payload = MIMEBase('application', 'octet-stream')
         payload.set_payload(attached_file.getvalue())
@@ -106,7 +121,6 @@ def send_email_notification(client_name, client_phone, selected_service, case_de
         msg.attach(payload)
         
     try:
-        # Connecting to SMTP Server (port 587 with TLS)
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
         server.login(sender_email, sender_password)
@@ -139,14 +153,6 @@ pricing_data = {
 }
 st.table(pricing_data)
 
-# --- Payment Options Section (NEW) ---
-st.write("---")
-st.subheader("ኣማራፂታት ክፍሊት (Payment Options)")
-st.info(
-    "በይዘኦም ክፍሊቶም ብ **TeleBirr (ቴሌ ብር)** ወይ **CBE Birr (ሲቢኢ ብር)** ናብዚ ዝስዕብ ስልኪ ቁፅሪ ይፈፅሙ:\n\n"
-    "📱 **+251914539226**\n\n"
-    "*(Please make your payment via TeleBirr or CBE Birr to the number above before attaching your receipt below.)*"
-)
 st.write("---")
 
 # Main Client Form
@@ -170,7 +176,26 @@ with st.form("legal_intake_form"):
             "ንኻልኦት — 3000 ብር"
         ]
     )
+
+    # --- Payment Options Addition ---
+    st.subheader("መክፈሊ ኣማራፂታት (Payment Method Options)")
+    payment_choice = st.radio(
+        "መክፈሊ ኣማራፂ ይምረፁ (Select Payment Option):",
+        ["Telebirr (ቴሌብር)", "CBE Birr (ሲቢኢ ብር)"]
+    )
     
+    phone_number = "0914539226"
+    
+    if payment_choice == "Telebirr (ቴሌብር)":
+        st.info(f"📱 ** Telebirr የመክፈሊ መመሪያ:**\n\n1. ወደ Telebirr App ይግቡ ወይም **\*127\#** ይደውሉ።\n2. ክፍያ ለመፈጸም ወደዚህ ስልክ ቁጥር ይላኩ: **{phone_number}**\n3. ክፍያው ሲጠናቀቅ የደረሰኝ ፎቶ (Screenshot) ከታች ያያይዙ።")
+        st.markdown(f'<a href="tel:*127#" class="pay-btn">በ Telebirr ይክፈሉ (*127#)</a>', unsafe_allow_html=True)
+        
+    elif payment_choice == "CBE Birr (ሲቢኢ ብር)":
+        st.info(f"🏦 ** CBE Birr የመክፈሊ መመሪያ:**\n\n1. ወደ CBE Birr App ይግቡ ወይም **\*847\#** ይደውሉ።\n2. ክፍያ ለመፈጸም ወደዚህ ስልክ ቁጥር ይላኩ: **{phone_number}**\n3. ክፍያው ሲጠናቀቅ የደረሰኝ ፎቶ (Screenshot) ከታች ያያይዙ።")
+        st.markdown(f'<a href="tel:*847#" class="pay-btn">በ CBE Birr ይክፈሉ (*847#)</a>', unsafe_allow_html=True)
+
+    st.write("---")
+
     # Payment Upload and Confirmation
     invoice = st.file_uploader("ዝኸፈልሉ ደረሰይ ይኹን ካልእ መረዳእታ ኣብዚ የተሓሕዙ (Attach Paid Invoice / Receipt and other evidence)", type=["pdf", "png", "jpg", "jpeg"])
     confirmed = st.checkbox("ትኽክለኛ ክፍሊት ምኽፋለይ የረጋግፅ (I confirm that I have paid the required amount)")
@@ -195,7 +220,7 @@ if submit_btn:
     else:
         with st.spinner("ኣብ ምምሕልላፍ ይርከብ... በይዘኦም ይፀበዩ (Sending notification...)"):
             # Send the data over email via SMTP
-            success = send_email_notification(name, phone, service, details, invoice)
+            success = send_email_notification(name, phone, service, payment_choice, details, invoice)
             
             st.success("እቲ ዝመልኡዎ ፎርሚ ብዝተሳኸዐ ተላኢኹ ኣሎ! ነመስግን:: መፍለጢ ናብቲ ጠበቓ ተላኢኹ ኣሎ ኢንተርኔት ኣብሪሆም ኣብ ዋትስኣብ ይፀበዩ። ኣብ ውሽጢ 1:00 ሰዓት ዝደለይዎ እንተዘይመፅዩዎም ገንዘቦም ክምለሰሎም እዩ።")
             st.balloons()
@@ -204,4 +229,5 @@ if submit_btn:
                     f"👤 ዓሚል (Client): {name}\n"
                     f"📞 ስልኪ ቁፅሪ (Phone): {phone}\n"
                     f"💼 ግልጋሎት (Service): {service}\n"
+                    f"💳 መክፈሊ (Payment Choice): {payment_choice}\n"
                     f"📧 Email Sent To: shewet2015@gmail.com")
