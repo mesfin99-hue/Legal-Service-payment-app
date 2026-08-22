@@ -4,6 +4,8 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email import encoders
+import io
+import openai  # Optional: Used for transcribing audio via Whisper API
 
 # --- Page Configurations ---
 st.set_page_config(page_title="Legal Services Intake", page_icon="⚖️", layout="centered")
@@ -11,40 +13,27 @@ st.set_page_config(page_title="Legal Services Intake", page_icon="⚖️", layou
 # --- Custom Styling (Cyan Background, Blue Fonts) ---
 custom_css = """
 <style>
-    /* Entire application background */
-    .stApp {
-        background-color: #00FFFF !important; /* Cyan background */
-    }
-    
-    /* Override font colors to Blue */
+    .stApp { background-color: #00FFFF !important; }
     html, body, p, h1, h2, h3, h4, h5, h6, span, label, li, div {
-        color: #0000FF !important; /* Blue */
+        color: #0000FF !important;
         font-family: 'Helvetica Neue', Arial, sans-serif;
     }
-    
-    /* Style input boxes and text areas for visibility */
     .stTextInput input, .stTextArea textarea, .stSelectbox select {
         color: #0000FF !important;
         border: 2px solid #0000FF !important;
-        background-color: #FFFFFF !important; /* White background inside input boxes for text contrast */
+        background-color: #FFFFFF !important;
         font-weight: bold;
     }
-
-    /* Checkbox text label override */
     .stCheckbox label p {
         color: #0000FF !important;
         font-weight: bold;
     }
-
-    /* Form Container Border */
     div[data-testid="stForm"] {
         border: 3px solid #0000FF !important;
         background-color: rgba(0, 0, 0, 0.2);
         border-radius: 12px;
         padding: 25px;
     }
-
-    /* Submit Button styling */
     div.stButton > button:first-child {
         background-color: #0000FF !important;
         color: white !important;
@@ -55,13 +44,10 @@ custom_css = """
         padding: 12px 30px !important;
         cursor: pointer;
     }
-    
     div.stButton > button:first-child:hover {
-        background-color: #87CEEB !important; /* Sky Blue on hover */
+        background-color: #87CEEB !important;
         color: white !important;
     }
-
-    /* Custom Payment Callout Box */
     .payment-box {
         border: 2px dashed #0000FF;
         background-color: #FFFFFF;
@@ -73,10 +59,25 @@ custom_css = """
 """
 st.markdown(custom_css, unsafe_allow_html=True)
 
+# --- Helper Function to Transcribe Audio (Optional OpenAI Whisper Integration) ---
+def transcribe_audio(audio_bytes):
+    try:
+        # Requires: pip install openai and st.secrets["OPENAI_API_KEY"]
+        client = openai.OpenAI(api_key=st.secrets.get("OPENAI_API_KEY", ""))
+        audio_file = io.BytesIO(audio_bytes)
+        audio_file.name = "audio.wav"
+        transcript = client.audio.transcriptions.create(
+            model="whisper-1", 
+            file=audio_file
+        )
+        return transcript.text
+    except Exception as e:
+        return f"[Audio transcription unavailable or failed: {str(e)}]"
+
 # --- Email Notification Function ---
-def send_email_notification(client_name, client_phone, selected_service, payment_method, case_details, attached_file):
-    sender_email = "maregawi99@gmail.com"  # Replace with your system email address
-    sender_password = "idxd yaqi nydu kjec"        # Replace with your Gmail App Password
+def send_email_notification(client_name, client_phone, selected_service, payment_method, case_details, attached_file, audio_bytes=None):
+    sender_email = "maregawi99@gmail.com"
+    sender_password = "idxd yaqi nydu kjec"  # Note: Use st.secrets in production
     receiver_email = "maregawi99@gmail.com"
     
     msg = MIMEMultipart()
@@ -102,16 +103,25 @@ def send_email_notification(client_name, client_phone, selected_service, payment
     -------------------------------------------
     {case_details}
     
-    *The client's payment invoice receipt is attached to this email.*
+    *Attached: Payment Receipt/Invoice and (if recorded) Client Audio Message.*
     """
     msg.attach(MIMEText(body, 'plain', 'utf-8'))
     
+    # Attach Invoice
     if attached_file is not None:
         payload = MIMEBase('application', 'octet-stream')
         payload.set_payload(attached_file.getvalue())
         encoders.encode_base64(payload)
         payload.add_header('Content-Disposition', f'attachment; filename={attached_file.name}')
         msg.attach(payload)
+        
+    # Attach Audio File (if present)
+    if audio_bytes is not None:
+        audio_payload = MIMEBase('audio', 'wav')
+        audio_payload.set_payload(audio_bytes)
+        encoders.encode_base64(audio_payload)
+        audio_payload.add_header('Content-Disposition', 'attachment; filename=client_case_audio.wav')
+        msg.attach(audio_payload)
         
     try:
         server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -148,15 +158,27 @@ st.table(pricing_data)
 
 st.write("---")
 
+# Audio input placed outside st.form for live updates/transcription
+st.subheader("🎙️ ናይ ድምፂ መመልከቲ (Voice Case Input)")
+st.write("ናይ ጉዳዮም ዝርዝር ብድምፂ ንምልኣኽ ኣብ ታሕቲ ዘሎ መቐረቢ ድምፂ ይተቀምጡ (Record your case details via voice below):")
+recorded_audio = st.audio_input("ተዛረቡ (Record Audio)")
+
+transcribed_text = ""
+audio_bytes = None
+
+if recorded_audio:
+    audio_bytes = recorded_audio.read()
+    st.audio(audio_bytes, format="audio/wav")
+    with st.spinner("ድምፅኹም ናብ ፅሑፍ ኣብ ምቕያር ይርከብ... (Transcribing audio...)"):
+        transcribed_text = transcribe_audio(audio_bytes)
+
 # Main Client Form
 with st.form("legal_intake_form"):
     st.subheader("ናይ ዓሚል ድሌት መግለፂ ፎርሚ (Client Intake Form)")
     
-    # Personal Details
     name = st.text_input("ሙሉእ ሽም (Full Name)")
     phone = st.text_input("ስልኪ ቁፅሪ (Phone Number)")
     
-    # Service drop-down
     service = st.selectbox(
         "ዝደልይዎ ኣገልግሎት (Choose Service):",
         [
@@ -170,9 +192,7 @@ with st.form("legal_intake_form"):
         ]
     )
     
-    # --- Payment Options Section (Placed above Case Details) ---
     st.write("#### ናይ ክፍሊት መማረፂታት (Payment Options)")
-    
     st.markdown("""
     <div class="payment-box">
         <p style="margin-bottom: 5px;"><strong>ከፍሊት ዝፍፅምሉ ቁፅሪ (Payment Account / Number):</strong></p>
@@ -186,15 +206,19 @@ with st.form("legal_intake_form"):
         ["Telebirr", "CBE Birr"]
     )
     
-    # Payment Upload and Confirmation
-    invoice = st.file_uploader("ዝኸፈልሉ ደረሰይ ይኹን ካልእ መረዳእታ ኣብዚ የተሓሕዙ (Attach Paid Invoice / Receipt and other evidence)", type=["pdf", "png", "jpg", "jpeg"])
+    invoice = st.file_uploader("ዝኸፈልሉ ደረሰይ ይኹን ካልእ መረዳእታ ኣብዚ የተሓሕዙ (Attach Paid Invoice / Receipt)", type=["pdf", "png", "jpg", "jpeg"])
     confirmed = st.checkbox("ትኽክለኛ ክፍሊት ምኽፋለይ የረጋግፅ (I confirm that I have paid the required amount)")
     
-    # Detailed case information field
     st.write("#### ናይ ጉዳዮም ዝርዝር መግለፂ (Case Details)")
-    details = st.text_area("ናይ ጉዳዮም ዝርዝር መግለፂ ኣብዚ ይፅሓፉ። ዝፅሕፍዎ ዝርዝር ሽም ከሳስን ኣድራሻን፣ ሽም ተኸሳስን ኣድራሻን፣ ግምት ክሲ፣ ገዛ ወይ መሬት እንተኾይኑ መጠኑን መዋሰንን፣ ውዕሊ እንተኾይኑ ቅዳሕ መረዳእታ፣ መልሲ እንተደልዮም ዝተውሃቦም ክስን ትእዛዝን ምስ ደረሰይ ይልኣኹ፣ ቅድሚ ሐዚ በዚ ጉዳይ ተኸራኺርኩም እንተነይርኩም ውፅኢት ይጥቀሱ።(Write every detail about your case here):", height=250)
     
-    # Submit button
+    # Autofills text area if voice was recorded, but allows client to manually type/edit
+    initial_text = transcribed_text if transcribed_text else ""
+    details = st.text_area(
+        "ናይ ጉዳዮም ዝርዝር መግለፂ ኣብዚ ይፅሓፉ ወይ ብድምፂ ዘእተውዎ ኣብዚ ይርኣዩ (Write or edit your case details here):",
+        value=initial_text,
+        height=250
+    )
+    
     submit_btn = st.form_submit_button("ለኣኽ (Submit)")
 
 # --- Submission Logic Handler ---
@@ -205,18 +229,16 @@ if submit_btn:
         st.error("በይዘኦም ናይ ክፍሊት መረጋገፂ ደረሰይ የተሓሕዙ (Please attach your payment invoice).")
     elif not confirmed:
         st.error("በይዘኦም ክፍሊት ምፍፃሞም ዘረጋግፅ ሳንዱቕ ይፅቀጡ (Please check the payment confirmation checkbox).")
-    elif not details:
-        st.error("በይዘኦም ናይ ጉዳዮም ዝርዝር መብርሂ ይፅሓፉ (Please write your case details).")
+    elif not details and not audio_bytes:
+        st.error("በይዘኦም ናይ ጉዳዮም ዝርዝር መብርሂ ይፅሓፉ ወይ ብድምፂ ይልኣኹ (Please write case details or record audio).")
     else:
         with st.spinner("ኣብ ምምሕልላፍ ይርከብ... በይዘኦም ይፀበዩ (Sending notification...)"):
-            success = send_email_notification(name, phone, service, payment_method, details, invoice)
+            success = send_email_notification(
+                name, phone, service, payment_method, details, invoice, audio_bytes=audio_bytes
+            )
             
-            st.success("እቲ ዝመልኡዎ ፎርሚ ብዝተሳኸዐ ተላኢኹ ኣሎ! ነመስግን:: መፍለጢ ናብቲ ጠበቓ ተላኢኹ ኣሎ ኢንተርኔት ኣብሪሆም ኣብ ዋትስኣብ ይፀበዩ። ኣብ ውሽጢ 1:00 ሰዓት ዝደለይዎ እንተዘይመፅዩዎም ገንዘቦም ክምለሰሎም እዩ።")
-            st.balloons()
-            
-            st.info(f"**መጠቓለሊ (Notification Sent):**\n\n"
-                    f"👤 ዓሚል (Client): {name}\n"
-                    f"📞 ስልኪ ቁፅሪ (Phone): {phone}\n"
-                    f"💼 ግልጋሎት (Service): {service}\n"
-                    f"💳 ናይ ክፍሊት መገዲ (Payment Method): {payment_method}\n"
-                    f"📧 Email Sent To: maregawi99@gmail.com")
+            if success:
+                st.success("እቲ ዝመልኡዎ ፎርሚ ብዝተሳኸዐ ተላኢኹ ኣሎ! ነመስግን:: መፍለጢ ናብቲ ጠበቓ ተላኢኹ ኣሎ ኢንተርኔት ኣብሪሆም ኣብ ዋትስኣብ ይፀበዩ። ኣብ ውሽጢ 1:00 ሰዓት ዝደለይዎ እንተዘይመፅዩዎም ገንዘቦም ክምለሰሎም እዩ።")
+                st.balloons()
+            else:
+                st.error("መፍለጢ ኣብ ምልኣኽ ፀገም ኣጋጢሙ። በይዘኦም ደጊሞም ይሞክሩ። (Failed to send email. Please try again.)")
