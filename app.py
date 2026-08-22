@@ -175,14 +175,14 @@ with st.form("legal_intake_form"):
     
     st.markdown("""
     <div class="payment-box">
-        <p style="margin-bottom: 5px;"><strong>ከፍሊት ዝፍፀመሉ ቁፅሪ (Payment Account / Number):</strong></p>
+        <p style="margin-bottom: 5px;"><strong>ከፍሊት ዝፍፅምሉ ቁፅሪ (Payment Account / Number):</strong></p>
         <p style="font-size: 20px; font-weight: bold; margin-bottom: 5px;">📱 +251914539226</p>
         <p style="margin-bottom: 0px;">በዚ ቁፅሪ ብ <strong>Telebirr</strong> ወይ ብ <strong>CBE Birr</strong> ክፍሊት ይፈፅሙ።</p>
     </div>
     """, unsafe_allow_html=True)
     
     payment_method = st.radio(
-        "ዝኸፈሉሉ መገዲ ይምረፁ (Select Your Payment Method):",
+        "ዝኸፍልሉ መንገዲ ይምረፁ (Select Your Payment Method):",
         ["Telebirr", "CBE Birr"]
     )
     
