@@ -44,15 +44,6 @@ custom_css = """
         padding: 25px;
     }
 
-    /* Custom Callout Box for Payment Details */
-    .payment-box {
-        background-color: #FFFFFF !important;
-        border: 2px solid #0000FF !important;
-        border-radius: 8px;
-        padding: 15px;
-        margin-bottom: 20px;
-    }
-
     /* Submit Button styling */
     div.stButton > button:first-child {
         background-color: #0000FF !important;
@@ -74,10 +65,10 @@ custom_css = """
 st.markdown(custom_css, unsafe_allow_html=True)
 
 # --- Email Notification Function ---
-def send_email_notification(client_name, client_phone, selected_service, payment_method, case_details, attached_file):
-    sender_email = "maregawi99@gmail.com"  # Replace with your system email address
-    sender_password = "cckj ayyn xvia djpm"         # Replace with your Gmail App Password
-    receiver_email = "maregawi99@gmail.com"
+def send_email_notification(client_name, client_phone, selected_service, case_details, attached_file):
+    sender_email = "shewet2015@gmail.com"  # Gmail sending account
+    sender_password = "cckj ayyn xvia djpm" # Gmail App Password
+    receiver_email = "maregawi99@gmail.com" # Updated receiver address
     
     # Setup the multi-part email structure
     msg = MIMEMultipart()
@@ -96,7 +87,6 @@ def send_email_notification(client_name, client_phone, selected_service, payment
     SERVICE & PAYMENT REQUESTED:
     -------------------------------------------
     Selected Service: {selected_service}
-    Payment Method Used: {payment_method}
     
     CASE DETAILS:
     -------------------------------------------
@@ -115,7 +105,6 @@ def send_email_notification(client_name, client_phone, selected_service, payment
         msg.attach(payload)
         
     try:
-        # Connecting to SMTP Server (port 587 with TLS)
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
         server.login(sender_email, sender_password)
@@ -150,6 +139,17 @@ st.table(pricing_data)
 
 st.write("---")
 
+# --- Payment Information Section ---
+st.subheader("ናይ ክፍሊት ኣማራፅታት (Payment Methods)")
+st.info("""
+**ክፍሊት ንምፈፃም እዞም ዝስዕቡ ኣማራፅታት ይጠቀሙ (Use the numbers below for payment):**
+
+📲 **Telebirr / ቴሌብር:** +251914539226  
+🏦 **CBE Birr / ሲቢኢ ብር:** +251914539226  
+
+*ክፍሊት ምስተፈፀመ ናይ ክፍሊቱ ደረሰይ/ስክሪንሽhot ኣብ ታሕቲ ኣብ ዘሎ ፎርም የተሓሕዙ።*
+""")
+
 # Main Client Form
 with st.form("legal_intake_form"):
     st.subheader("ናይ ዓሚል ድሌት መግለፂ ፎርሚ (Client Intake Form)")
@@ -170,27 +170,6 @@ with st.form("legal_intake_form"):
             "ኣብ ቤት ፍርዲ ጥብቅና ንምቛም — 10%",
             "ንኻልኦት — 3000 ብር"
         ]
-    )
-
-    # --- Payment Instructions & Selection Section ---
-    st.subheader("ናይ ክፍሊት ሓበሬታ (Payment Options)")
-    
-    st.markdown(
-        """
-        <div class="payment-box">
-            <p><b>በዞም ዝስዕቡ ናይ ክፍሊት አማራፅታት ክፍሊት ይፈፅሙ (Please pay using one of these options):</b></p>
-            <ul>
-                <li><b>Telebirr:</b> +251914539226</li>
-                <li><b>CBE Birr:</b> +251914539226</li>
-            </ul>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-    payment_method = st.radio(
-        "ዝተጠቐሙሉ ናይ ክፍሊት ዓይነት ይምረፁ (Select Payment Method Used):",
-        ["Telebirr", "CBE Birr"]
     )
     
     # Payment Upload and Confirmation
@@ -216,8 +195,7 @@ if submit_btn:
         st.error("በይዘኦም ናይ ጉዳዮም ዝርዝር መብርሂ ይፅሓፉ (Please write your case details).")
     else:
         with st.spinner("ኣብ ምምሕልላፍ ይርከብ... በይዘኦም ይፀበዩ (Sending notification...)"):
-            # Send the data over email via SMTP
-            success = send_email_notification(name, phone, service, payment_method, details, invoice)
+            success = send_email_notification(name, phone, service, details, invoice)
             
             if success:
                 st.success("እቲ ዝመልኡዎ ፎርሚ ብዝተሳኸዐ ተላኢኹ ኣሎ! ነመስግን:: መፍለጢ ናብቲ ጠበቓ ተላኢኹ ኣሎ ኢንተርኔት ኣብሪሆም ኣብ ዋትስኣብ ይፀበዩ። ኣብ ውሽጢ 1:00 ሰዓት ዝደለይዎ እንተዘይመፅዩዎም ገንዘቦም ክምለሰሎም እዩ።")
@@ -227,7 +205,6 @@ if submit_btn:
                         f"👤 ዓሚል (Client): {name}\n"
                         f"📞 ስልኪ ቁፅሪ (Phone): {phone}\n"
                         f"💼 ግልጋሎት (Service): {service}\n"
-                        f"💳 ክፍሊት (Payment Method): {payment_method}\n"
                         f"📧 Email Sent To: maregawi99@gmail.com")
             else:
-                st.error("መረዳእታ ኣብ ምስዳድ ፀገም ኣጋጢሙ ኣሎ:: ብይዘኦም እንደገና ይሞክሩ:: (Failed to send email notification. Please check your credentials or try again.)")
+                st.error("There was an issue sending the email notification. Please check your credentials.")
